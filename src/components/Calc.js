@@ -1,7 +1,24 @@
 import React,{useState} from 'react' 
 import Layout from '../containers/Layout'
+import axios  from 'axios';
+import { useLinkClickHandler } from 'react-router-dom';
 export default function Calc(){
-    const [num1, setNum1] = useState(0)
+    const [inputs, setInputs] = useState({})
+    const { num1, opcode, num2 } = inputs;
+
+    const handleChange = (e) => {
+        e.preventDefault()
+        const {value, name } = e.target;
+        setInputs({ ...inputs, [name]: value})
+    }
+    const handleClick = (e) => {
+        e.preventDefault()
+        const calcRequest = {num1, opcode, num2}
+        alert(` 입력갑 : ${JSON.stringify(calcRequest)}`)
+    }
+
+
+    /*const [num1, setNum1] = useState(0)
     const [num2, setNum2] = useState(0)
     const [opcode, setOpcode] = useState("")
     const [result, setResult] = useState(0)
@@ -14,28 +31,32 @@ export default function Calc(){
         setNum2(num2)
        setResult(Number(num1)+Number(num2))
        console.log('결과'+result)
-    }
+    }*/
     
-    return <Layout><h1>계산기</h1>
+    return <Layout>
+    <form>
+    <h1>계산기</h1>
     <form action="">
-    <label><b>num1</b></label>
-    <input id="num1" type="" /><br />
+    <label><b>숫자</b></label><br />
+    <input type="text" name ="num1" onChange={handleChange} /><br /><br />
 
-    <label htmlFor=""><b>opcode</b></label>
-    <select name="" id="">
-        <option value="">+</option>
-        <option value="">-</option>
-        <option value="">*</option>
-        <option value="">/</option>S
-        <option value="">%</option>
-    </select>
+    <label htmlFor=""><b>기호</b></label><br />
+    <input type="text" name ="opcode" onChange={handleChange} /><br /><br />
     
-    <br />
+    
+    <br /><br />
 
-    <label htmlFor=""><b>num2</b></label>
-    <input id="num2" type="" /><br />
-    <button onClick={()=>sum()}>더하기 실행</button>
+    <label htmlFor=""><b>숫자</b></label><br />
+    <input type="text" name="num2" onChange={handleChange} /><br /><br />
+    <button onClick={handleClick}>계산</button>
+    </form><br />
     </form>
-    <div>결과:</div>
     </Layout>
 }
+// <select type="text" name="opcode" onChange={handleChange}><br /><br /><br />
+//         <option value="">+</option>
+//         <option value="">-</option>
+//         <option value="">*</option>
+//         <option value="">/</option>
+//         <option value="">%</option>
+//     </select>

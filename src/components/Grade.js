@@ -1,38 +1,48 @@
 import React, {useState} from "react";
 import Layout from "../containers/Layout";
+import axios  from 'axios';
+import { useLinkClickHandler } from 'react-router-dom';
 export default function Grade(){
-    const [name, setName] = useState("")
-    const [kor, setKor] = useState(0)
-    const [eng, setEng] = useState(0)
-    const [math, setMath] = useState(0)
-    const sum = ()=>{
-        let name = document.getElementById('name').value
-        console.log('이름'+name)
-        let kor = document.getElementById('kor').value
-        console.log('국어'+kor)
-        let eng = document.getElementById('eng').value
-        console.log('영어'+eng)
-        let math= document.getElementById('math').value
-        console.log('수학'+math)
-        setName(name)
-        setKor(kor)
-        setEng(eng)
-        setMath(math)
+    
+    const [inputs, setInputs] = useState({})
+    const { name, kor, eng, math } = inputs;
+
+
+
+    const handleChange = (e) => {
+        e.preventDefault()
+        const {value, name } = e.target;
+        setInputs({ ...inputs, [name]: value})
     }
     
-return <Layout><h1>성적표</h1>
+    const handleClick = (e) => {
+        e.preventDefault()
+        const gradeRequest = {name, kor, eng, math}
+        alert(` 사용자이름: ${JSON.stringify(gradeRequest)}`)
+    }
+    
+    
+    
+return (<Layout>
+<form>
+<h1>성적표</h1>
+
 <div>
 <label htmlFor=""><b>이름</b></label> <br />
-<input id="name" type="" /><br /><br />
+<input type="text" name ="name" onChange={handleChange} /><br /><br />
+
 <label htmlFor=""><b>국어 점수</b></label><br />
-<input id="kor" type="" /><br /><br />
+<input type="text" name ="kor" onChange={handleChange} /><br /><br />
+
 <label htmlFor=""><b>영어 점수</b></label><br />
-<input id="eng" type="" /><br /><br />
+<input type="text" name ="eng" onChange={handleChange} /><br /><br />
+
 <label htmlFor=""><b>수학 점수</b></label><br />
-<input id="math" type="" /><br /><br />
-<button onClick={()=>sum()}>결과</button><br />
-<div>결과: {name},{kor},{eng},{math} </div>
+<input type="text" name ="math" onChange={handleChange} /><br /><br />
+<button onClick={handleClick}>결과</button>
+
 
 </div>
-</Layout>
+</form>
+</Layout>)
 }
